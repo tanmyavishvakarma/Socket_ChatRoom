@@ -5,7 +5,7 @@ import time
 s=socket.socket()
 host=socket.gethostname()
 ip=socket.gethostbyname(host)
-
+print(ip)
 PORT =8081
 
 s.bind((host,PORT))
@@ -20,7 +20,7 @@ print("incomming com from ",incomingppl[0])
 
 incommingconnectiondetails = (clientsocket.recv(1024)).decode()
 
-print(incommingconnectiondetails+'has connected')
+print(incommingconnectiondetails+' has connected')
 
 clientsocket.send(name.encode())
 while(True):
@@ -28,6 +28,7 @@ while(True):
     clientsocket.send(msg.encode())
     msg=clientsocket.recv(1024)
     msg=msg.decode()
+
     print(incommingconnectiondetails,":", msg)
 
 

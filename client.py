@@ -1,19 +1,35 @@
-import socket
-import sys
+import socket 
+import sys 
 import time
 
-s=socket.socket()
-host=socket.gethostname()
-ip=socket.gethostbyname(host)
+serversocket=socket.socket()
+serverhost=socket.gethostname()
+serverip=socket.gethostbyname(serverhost)
 
-PORT =8080
+SPORT=8081
 
-s.bind((host,PORT))
-print("binding port")
+print("your ip is :" ,serverip)
 
-name=input("please enter your name")
+host=input("server address : ") 
+name=input("enter your name : ")
+print("trying to connect to ",host )
+serversocket.connect((host,SPORT))
 
-s.listen(1)
+print("connected")
 
-conn,incomingppl=s.accept()
-print("incomming com from ",incomingppl[0])
+serversocket.send(name.encode())
+s_name=serversocket.recv(1024)
+s_name=s_name.decode()
+print(s_name, " has joined")
+
+while(True):
+    msg=serversocket.recv(1024)
+    msg=msg.decode()
+    print(s_name,":",msg)
+    msg=input("Me : ")
+    if(msg=="[e]"):
+        msg="left chat"
+        serversocket.send(msg.encode())
+        break
+    serversocket.send(msg.encode())
+
